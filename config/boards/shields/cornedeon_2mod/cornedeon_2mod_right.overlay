@@ -1,0 +1,38 @@
+#include "cornedeon_2mod.dtsi"
+#include "cornedeon_2mod-pinctrl.dtsi"
+
+/ {
+    wired_split {
+        compatible = "zmk,wired-split";
+        device = <&uart0>;
+    };
+};
+
+&uart0 {
+    status = "okay";
+    pinctrl-0 = <&uart0_default>;
+    pinctrl-names = "default";
+    current-speed = <115200>;
+};
+
+&default_transform {
+    col-offset = <6>;
+};
+
+&kscan0 {
+    row-gpios
+        = <&gpio0 27 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 26 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        ;
+
+    col-gpios
+        = <&gpio0 9 GPIO_ACTIVE_HIGH>
+        , <&gpio0 8 GPIO_ACTIVE_HIGH>
+        , <&gpio0 7 GPIO_ACTIVE_HIGH>
+        , <&gpio0 6 GPIO_ACTIVE_HIGH>
+        , <&gpio0 5 GPIO_ACTIVE_HIGH>
+        , <&gpio0 4 GPIO_ACTIVE_HIGH>
+        ;
+};

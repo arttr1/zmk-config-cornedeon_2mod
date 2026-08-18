@@ -1,0 +1,8 @@
+include:
+  - board: rpi_pico
+    shield: cornedeon_2mod_left
+    snippet: studio-rpc-usb-uart
+    artifact-name: cornedeon_2mod_left
+  - board: rpi_pico
+    shield: cornedeon_2mod_right
+    artifact-name: cornedeon_2mod_right

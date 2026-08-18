@@ -1,0 +1,98 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+    behaviors {
+        hrm: hrm {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <125>;
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        combo_bootloader_left {
+            timeout-ms = <50>;
+            key-positions = <0 12 24>;
+            bindings = <&bootloader>;
+        };
+
+        combo_bootloader_right {
+            timeout-ms = <50>;
+            key-positions = <11 23 35>;
+            bindings = <&bootloader>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        base {
+            // ------------------------------------------------------------------------------------------------------------
+            // |  ESC  |  Q  |  W  |  E  |  R  |  T  |            |  Y  |  U  |  I  |  O  |  P   | BSPC  |
+            // |  TAB  | CTL/A|ALT/S|GUI/D|SFT/F|  G  |            |  H  |SFT/J|GUI/K|ALT/L|CTL/;| '     |
+            // | LALT  |  Z  |  X  |  C  |  V  |  B  |            |  N  |  M  |  ,  |  .  |  /  | RCTRL |
+            // | LCTL  | LEFT|mo(2)|mo(1)| ENT | LGUI |            |RSHFT| BSPC|SPACE|mo(3)| DOWN| RCTL  |
+            bindings = <
+&kp ESC       &kp Q                &kp W             &kp E             &kp R         &kp T          &kp Y            &kp U          &kp I             &kp O             &kp P                    &kp BSPC
+&kp TAB       &hrm LEFT_CONTROL A  &hrm RIGHT_ALT S  &hrm RIGHT_WIN D  &hrm RSHFT F  &kp G          &kp H            &hrm RSHFT J   &hrm RIGHT_WIN K  &hrm RIGHT_ALT L  &hrm RIGHT_CONTROL SEMI  &kp SINGLE_QUOTE
+&kp LEFT_ALT  &kp Z                &kp X             &kp C             &kp V         &kp B          &kp N            &kp M          &kp COMMA         &kp DOT           &kp FSLH                 &kp RCTRL
+&kp LCTRL     &kp LEFT             &mo 2             &mo 1             &kp ENTER     &kp LEFT_COMMAND &kp RIGHT_SHIFT  &kp BACKSPACE  &kp SPACE         &mo 3             &kp DOWN                 &kp RCTRL
+            >;
+        };
+
+        num {
+            // ------------------------------------------------------------------------------------------------------------
+            // |  TRANS| -   |  =  |  _  |  +  |  \  |            |  [  |  7  |  8  |  9  |  ]  |  /    |
+            // |  TRANS|TRANS|TRANS|TRANS|  ~  |  `  |            | S(E)|  4  |  5  |  6  | '   | TRANS |
+            // |  TRANS| CAPS|TRANS|TRANS|  W  |  E  |            | S(W)|  1  |  2  |  3  |  0  | TRANS |
+            // | TRANS | TRANS|TRANS|TRANS| TRANS|TRANS|            |TRANS|TRANS|TRANS|TRANS| TRANS|TRANS |
+            bindings = <
+&trans  &kp MINUS     &kp EQUAL  &kp UNDER  &kp PLUS   &kp BACKSLASH    &kp LEFT_BRACKET  &kp N7        &kp N8        &kp N9        &kp RIGHT_BRACKET  &kp SLASH
+&trans  &trans        &trans     &trans     &kp TILDE  &kp GRAVE        &kp LS(E)         &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp SINGLE_QUOTE   &trans
+&trans  &kp CAPSLOCK  &trans     &trans     &kp W      &kp E            &kp LS(W)         &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_0       &trans
+&trans  &trans        &trans     &trans     &trans     &trans           &trans            &trans        &kp DELETE    &kp ENTER     &trans             &trans
+            >;
+        };
+
+        nav {
+            // ------------------------------------------------------------------------------------------------------------
+            // | TRANS |NONE |LCLK |SCRLDN|MVUP |SCRLUP|            |NONE | SCDN| SCUP|NONE |NONE |NONE   |
+            // | TRANS |NONE |MCLK |MVLEFT|MVDWN|MVRGHT|            |LEFT | DOWN|  UP |RIGHT|NONE |NONE   |
+            // | TRANS |NONE |RCLK |SCRLRT|NONE |SCRLLF|            |LCLK | MCLK| RCLK|NONE |NONE |TRANS  |
+            // | TRANS |TRANS|TRANS|TRANS |TRANS|TRANS |            |TRANS|TRANS|TRANS|TRANS|TRANS|TRANS  |
+            bindings = <
+&trans  &none  &mkp LCLK  &msc SCRL_DOWN   &mmv MOVE_UP    &msc SCRL_UP       &none      &kp K_SCROLL_DOWN  &kp K_SCROLL_UP  &none      &none  &none
+&trans  &none  &mkp MCLK  &mmv MOVE_LEFT   &mmv MOVE_DOWN  &mmv MOVE_RIGHT    &kp LEFT   &kp DOWN           &kp UP           &kp RIGHT  &none  &none
+&trans  &none  &mkp RCLK  &msc SCRL_RIGHT  &none           &msc SCRL_LEFT     &mkp LCLK  &mkp MCLK          &mkp RCLK        &none      &none  &trans
+&trans  &trans  &trans  &trans        &trans          &trans             &trans     &trans             &trans           &trans     &trans  &trans
+            >;
+        };
+
+        sys {
+            // ------------------------------------------------------------------------------------------------------------
+            // |BRI-  |BRI+ |SCRNSHOT4|PRTSC|VOICE|SLEEP|          |PREV |PLAY |NEXT |MUTE |VOL- |VOL+   |
+            // |  F1  |  F2 |NONE |NONE |NONE |NONE |            |NONE |NONE |NONE |NONE |NONE |NONE   |
+            // | TRANS|NONE |NONE |TO(0)|TO(2)|TO(1)|            |NONE |NONE |NONE |NONE |NONE |TRANS  |
+            // | TRANS|TRANS|TRANS|TRANS|TRANS|TRANS|            |TRANS|TRANS|TRANS|TRANS|TRANS|TRANS  |
+            bindings = <
+&kp C_BRIGHTNESS_DEC  &kp C_BRIGHTNESS_INC  &kp LG(LS(NUMBER_4))  &kp PRINTSCREEN  &kp C_VOICE_COMMAND  &kp C_SLEEP    &kp C_PREVIOUS  &kp C_PLAY_PAUSE  &kp C_NEXT    &kp K_MUTE    &kp C_VOL_DN  &kp C_VOL_UP
+&kp F1                &kp F2                &none                 &none            &none                &none          &none           &none             &none         &none         &none         &none
+&trans                &none                 &none                 &to 0            &to 2                &to 1          &none           &none             &none         &none         &none         &trans
+&trans                &trans                &trans                &trans           &trans               &trans         &trans          &trans            &trans        &trans        &trans        &trans
+            >;
+        };
+    };
+};

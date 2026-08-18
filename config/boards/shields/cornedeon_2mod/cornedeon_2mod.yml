@@ -1,0 +1,12 @@
+file_format: "1"
+id: cornedeon_2mod
+name: Cornedeon 2M
+type: shield
+url: https://cornedeon.ru
+requires: [rpi_pico]
+features:
+  - keys
+  - studio
+siblings:
+  - cornedeon_2mod_left
+  - cornedeon_2mod_right
